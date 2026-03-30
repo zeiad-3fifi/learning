@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فهرس الدروس | الحقيبة التعليمية</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body> <?php include 'header.php'; ?>
+
+    <header class="page-header" data-aos="fade-down" style="background: linear-gradient(135deg, var(--main-blue), var(--accent-color));">
+        <div class="container">
+            <h1>📚 الوحدات الدراسية</h1>
+            <p>اختر الوحدة ثم ابدأ الدرس</p>
+        </div>
+    </header>
+
+    <main class="container" data-aos="fade-up">
+        <div class="unit-section">
+            <button class="unit-header" onclick="toggleUnit('unit1')">
+                <span>📂 الوحدة الأولى: أجهزة النقل والإمداد</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div id="unit1" class="unit-content">
+                <div class="lessons-list">
+                    <a href="lesson-detail.php" class="lesson-item">
+                        <span class="icon">🫁</span>
+                        <div class="text">
+                            <h4>الدرس الأول: الجهاز التنفسي</h4>
+                            <p>تعرف على آلية الشهيق والزفير وتبادل الغازات.</p>
+                        </div>
+                    </a>
+                    <a href="circulatory-detail.php" class="lesson-item">
+                        <span class="icon">❤️</span>
+                        <div class="text">
+                            <h4>الدرس الثاني: الجهاز الدوري</h4>
+                            <p>وظيفة القلب والأوعية الدموية ومكونات الدم.</p>
+                        </div>
+                    </a>
+                    <a href="#" class="lesson-item disabled">
+                        <span class="icon">🩸</span>
+                        <div class="text">
+                            <h4>الدرس الثالث: الدم ومكوناته</h4>
+                            <p>تعرف على أنواع الدم ومكوناته ووظائفه.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="unit-section">
+            <button class="unit-header" onclick="toggleUnit('unit2')">
+                <span>📂 الوحدة الثانية: الطاقة والصحة</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div id="unit2" class="unit-content">
+                <div class="lessons-list">
+                    <a href="#" class="lesson-item disabled">
+                        <span class="icon">🍔</span>
+                        <div class="text">
+                            <h4>الدرس الأول: الجهاز الهضمي</h4>
+                            <p>رحلة الطعام من الفم إلى الإخراج.</p>
+                        </div>
+                    </a>
+                    <a href="#" class="lesson-item disabled">
+                        <span class="icon">🥗</span>
+                        <div class="text">
+                            <h4>الدرس الثاني: أهمية الغذاء الصحي</h4>
+                            <p>الهرم الغذائي وكيفية الحفاظ على سلامة الجسم.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleUnit(unitId) {
+            const content = document.getElementById(unitId);
+            const header = content.previousElementSibling;
+            
+            // إغلاق أي وحدة أخرى مفتوحة (اختياري)
+            // document.querySelectorAll('.unit-content').forEach(u => {
+            //     if(u.id !== unitId) u.classList.remove('open');
+            // });
+
+            content.classList.toggle('open');
+            header.classList.toggle('active');
+        }
+    </script>
+    <script src="script.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 1000, // مدة الحركة ثانية واحدة
+    once: true      // الحركة تحصل مرة واحدة بس وأنت نازل
+  });
+</script>
+</body>
+</html>

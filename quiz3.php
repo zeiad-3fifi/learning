@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الدم ومكوناته</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #f9f9f9; }
+        .quiz-container { max-width: 700px; margin: 30px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .q-section { margin-bottom: 20px; padding: 15px; border-right: 5px solid #e91e63; background: #fff5f8; border-radius: 5px; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .opt-card { background: #fff; border: 1px solid #ddd; padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; transition: 0.3s; display: block; }
+        input[type="radio"] { display: none; }
+        input[type="radio"]:checked + label { background: #e91e63; color: white; border-color: #ad1457; }
+        .btn-submit { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-family: 'Tajawal'; }
+        #result-box { display: none; text-align: center; padding: 30px; }
+        b { color: #880e4f; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="quiz-container" id="quiz-ui">
+            <h2 style="text-align: center; color: #e91e63;">🩸 اختبار: الدم ومكوناته</h2>
+            <form id="qForm">
+                <div class="q-section"><b>1. المادة التي تعطي الدم لونه الأحمر هي:</b>
+                    <div class="options-grid">
+                        <input type="radio" name="q1" id="q1a" value="1"><label class="opt-card" for="q1a">الهيموجلوبين</label>
+                        <input type="radio" name="q1" id="q1b" value="0"><label class="opt-card" for="q1b">البلازما</label>
+                    </div>
+                </div>
+
+                <div class="q-section"><b>2. عند حدوث جرح، ما الذي يساعد على تجلط الدم؟</b>
+                    <div class="options-grid">
+                        <input type="radio" name="q2" id="q2a" value="1"><label class="opt-card" for="q2a">الصفائح الدموية</label>
+                        <input type="radio" name="q2" id="q2b" value="0"><label class="opt-card" for="q2b">خلايا الدم البيضاء</label>
+                    </div>
+                </div>
+
+                <div class="q-section"><b>3. سائل يميل لونه للصفرة ويشكل أكثر من نصف حجم الدم:</b>
+                    <div class="options-grid">
+                        <input type="radio" name="q3" id="q3a" value="1"><label class="opt-card" for="q3a">البلازما</label>
+                        <input type="radio" name="q3" id="q3b" value="0"><label class="opt-card" for="q3b">الأكسجين</label>
+                    </div>
+                </div>
+
+                <div class="q-section"><b>4. وظيفة خلايا الدم البيضاء هي:</b>
+                    <div class="options-grid">
+                        <input type="radio" name="q4" id="q4a" value="1"><label class="opt-card" for="q4a">الدفاع عن الجسم</label>
+                        <input type="radio" name="q4" id="q4b" value="0"><label class="opt-card" for="q4b">نقل الغذاء</label>
+                    </div>
+                </div>
+
+                <div class="q-section"><b>5. نقص كرات الدم الحمراء يسبب مرض:</b>
+                    <div class="options-grid">
+                        <input type="radio" name="q5" id="q5a" value="1"><label class="opt-card" for="q5a">الأنيميا</label>
+                        <input type="radio" name="q5" id="q5b" value="0"><label class="opt-card" for="q5b">السكر</label>
+                    </div>
+                </div>
+
+                <button type="button" onclick="calculateResult(3)" class="btn-submit">عرض النتيجة وفتح الدرس التالي</button>
+            </form>
+        </div>
+
+        <div id="result-box" class="quiz-container">
+            <h1 id="score-text" style="color: #e91e63;"></h1>
+            <p id="feedback" style="font-size: 1.2rem; margin-bottom: 20px;"></p>
+            <a href="quizzes.php" class="btn-submit" style="text-decoration: none; display: block; text-align: center;">العودة لصفحة الاختبارات</a>
+        </div>
+    </div>
+
+    <script>
+        function calculateResult(lessonID) {
+            let score = 0;
+            const form = document.getElementById('qForm');
+            const data = new FormData(form);
+            
+            // نجمع الدرجات
+            let answeredQuestions = 0;
+            for (let v of data.values()) { 
+                score += parseInt(v); 
+                answeredQuestions++;
+            }
+
+            // إخفاء الأسئلة وإظهار النتيجة مثل كويز 2
+            document.getElementById('quiz-ui').style.display = 'none';
+            document.getElementById('result-box').style.display = 'block';
+            
+            // نعدل النص بناءً على النتيجة (الأسئلة هنا 5)
+            document.getElementById('score-text').innerText = `درجتك: ${score} من 5`;
+
+            if(score >= 4) {
+                document.getElementById('feedback').innerText = "أحسنت! لقد أجبت بشكل رائع على أسئلة مكونات الدم.";
+                localStorage.setItem('quizCompleted', lessonID);
+            } else {
+                document.getElementById('feedback').innerText = "تحتاج لمراجعة الدرس مرة أخرى، حاول مجدداً!";
+                document.getElementById('feedback').style.color = "red";
+            }
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
