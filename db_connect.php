@@ -1,16 +1,18 @@
 <?php
-// Railway بتمرر البيانات دي أوتوماتيك للموقع
-$host     = getenv('MYSQLHOST'); 
-$user     = getenv('MYSQLUSER');
-$password = getenv('MYSQLPASSWORD');
-$db_name  = getenv('MYSQLDATABASE');
-$port     = getenv('MYSQLPORT');
+// إظهار الأخطاء عشان لو فيه مشكلة نعرفها فوراً
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-// إنشاء الاتصال باستخدام البيانات الجديدة
+$host     = "mysql.railway.internal"; 
+$user     = "root"; 
+$password = "eYYIndWAJhMURsYXryfazufimnWZYFzL";
+$db_name  = "railway";
+$port     = "3306"; 
+
 $conn = mysqli_connect($host, $user, $password, $db_name, $port);
 
 if (!$conn) {
-    die("خطأ في الاتصال: " . mysqli_connect_error());
+    die("فشل الاتصال بقاعدة البيانات: " . mysqli_connect_error());
 }
 
 mysqli_set_charset($conn, "utf8");
