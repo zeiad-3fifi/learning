@@ -159,7 +159,7 @@ if (!isset($_SESSION['user_id'])) {
             fetch('save_score.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `quiz_id=${quizID}&score=${score}`
+                body: `quiz_id=2&score=${score}&total=10`
             })
             .then(() => {
                 document.getElementById('quiz-ui').style.display = 'none';
