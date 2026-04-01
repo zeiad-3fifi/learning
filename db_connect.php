@@ -1,20 +1,23 @@
 <?php
-// جلب البيانات من متغيرات البيئة (Railway) أو استخدام القيم الافتراضية للجهاز المحلي
-$host = getenv('MYSQLHOST') ?: "127.0.0.1";
-$port = getenv('MYSQLPORT') ?: "3307";
-$user = getenv('MYSQLUSER') ?: "root";
+// 1. جلب البيانات تلقائياً من بيئة Railway
+// إذا لم يجدها (كما في جهازك الشخصي)، سيستخدم القيم الافتراضية بعد علامة ?:
+$host = getenv('MYSQLHOST')     ?: "127.0.0.1";
+$port = getenv('MYSQLPORT')     ?: "3307"; // المنفذ الخاص بجهازك
+$user = getenv('MYSQLUSER')     ?: "root";
 $pass = getenv('MYSQLPASSWORD') ?: "";
-$db_name = getenv('MYSQLDATABASE') ?: "haqiba_db";
+$db   = getenv('MYSQLDATABASE') ?: "haqiba_db";
 
-// دمج المضيف مع المنفذ للاتصال
-$full_host = "$host:$port";
+// 2. تنفيذ الاتصال
+// ندمج الـ Host مع الـ Port لضمان عمل الاتصال في الجهتين
+$conn = mysqli_connect($host, $user, $pass, $db, $port);
 
-$conn = mysqli_connect($full_host, $user, $pass, $db_name);
-
+// 3. فحص الاتصال
 if (!$conn) {
-    // في بيئة الإنتاج يفضل عدم إظهار تفاصيل الخطأ للمستخدم، لكن للتجربة الآن:
-    die("خطأ في الاتصال: " . mysqli_connect_error());
+    // في حالة الخطأ، سيخبرك بالسبب بدقة
+    die("خطأ في الاتصال بقاعدة البيانات: " . mysqli_connect_error());
 }
 
+// 4. ضبط الترميز لدعم اللغة العربية
 mysqli_set_charset($conn, "utf8");
-?>
+
+// ملاحظة: لا تضع وسم إغلاق PHP في نهاية ملفات الاتصال لتجنب أخطاء الـ Headers
