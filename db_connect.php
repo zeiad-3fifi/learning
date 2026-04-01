@@ -1,10 +1,13 @@
 <?php
-$host = "127.0.0.1:3307"; // زودنا رقم البورت هنا بناءً على صورتك
-$user = "root";
-$pass = ""; 
-$db_name = "haqiba_db";
+// Railway بتبعت بيانات القاعدة تلقائياً في المتغيرات دي
+$host = getenv('MYSQLHOST') ?: "127.0.0.1";
+$user = getenv('MYSQLUSER') ?: "root";
+$pass = getenv('MYSQLPASSWORD') ?: ""; 
+$db_name = getenv('MYSQLDATABASE') ?: "haqiba_db";
+$port = getenv('MYSQLPORT') ?: "3307";
 
-$conn = mysqli_connect($host, $user, $pass, $db_name);
+// الاتصال باستخدام البيانات المتوفرة
+$conn = mysqli_connect($host, $user, $pass, $db_name, $port);
 
 if (!$conn) {
     die("خطأ في الاتصال: " . mysqli_connect_error());
