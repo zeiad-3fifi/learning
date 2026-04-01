@@ -151,24 +151,24 @@
     fetch('get_progress.php')
     .then(response => response.json())
     .then(data => {
-        let completed = parseInt(data.completed_count);
-        let progress = (completed / 6) * 100;
+        let completedCount = parseInt(data.completed_count);
         
-        if(document.getElementById('mainProgress')) {
-            document.getElementById('mainProgress').style.width = progress + '%';
-        }
+        // مصفوفة بأسماء الـ IDs للاختبارات في الصفحة
+        const quizIds = ['q1', 'q2', 'q3', 'q4', 'q5', 'qFinal'];
 
-        // فتح الاختبارات المقفولة بناءً على الداتا اللي جاية من السيرفر
-        for (let i = 2; i <= 5; i++) {
-            let qBox = document.getElementById('q' + i);
-            if (qBox && completed >= i - 1) {
-                qBox.classList.remove('locked');
+        // الاختبار الأول (q1) دائماً مفتوح، نبدأ نشيك من التاني
+        for (let i = 1; i < quizIds.length; i++) {
+            let qBox = document.getElementById(quizIds[i]);
+            if (qBox) {
+                // إذا كان عدد الاختبارات المجتازة أكبر من أو يساوي رقم الترتيب
+                // مثلاً: لو خلصت 1 (completedCount = 1)، افتح الاختبار رقم 2 (index 1)
+                if (completedCount >= i) {
+                    qBox.classList.remove('locked');
+                    // اختياري: تغيير شكل الزرار من "مغلق" لـ "ابدأ الآن"
+                    let btn = qBox.querySelector('.download-btn');
+                    if(btn) btn.style.pointerEvents = 'auto';
+                }
             }
-        }
-        
-        if (completed >= 5) {
-            let qFinal = document.getElementById('qFinal');
-            if(qFinal) qFinal.classList.remove('locked');
         }
     });
 }
