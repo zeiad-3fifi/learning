@@ -28,34 +28,27 @@
         .progress-bar {
             background: linear-gradient(90deg, #27ae60, #2ecc71);
             height: 100%;
-            width: 0%; /* البداية من صفر ويتم تحديثها بالجافاسكريبت */
-            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 20%; /* القيمة الافتراضية للبداية */
+            transition: width 0.6s ease;
         }
 
         /* نظام القفل */
         .quiz-card.locked {
-            opacity: 0.6;
-            filter: grayscale(0.8);
+            opacity: 0.5;
+            filter: grayscale(1);
+            pointer-events: none; /* يمنع الضغط */
             position: relative;
         }
-        
-        .quiz-card.locked .download-btn {
-            background: #95a5a6 !important;
-            pointer-events: none; /* يمنع الضغط على الزرار وهو مقفول */
-            cursor: not-allowed;
-        }
-
         .quiz-card.locked::after {
-            content: "🔒 يجب إكمال الاختبار السابق";
+            content: "🔒 مغلق";
             position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(0,0,0,0.7);
+            top: 10px;
+            left: 10px;
+            background: #555;
             color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            z-index: 2;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
         }
 
         .unit-tag {
@@ -72,19 +65,13 @@
         .final-challenge {
             background: #2c3e50 !important;
             color: white !important;
-            grid-column: 1 / -1;
+            grid-column: 1 / -1; /* يأخذ العرض كاملاً */
             margin-top: 30px;
             border: 2px solid #f1c40f;
         }
-        
-        /* تحسينات للشاشات الصغيرة */
-        @media (max-width: 768px) {
-            .final-challenge { grid-column: auto; }
-        }
     </style>
 </head>
-<body> 
-    <?php include 'header.php'; ?>
+<body> <?php include 'header.php'; ?>
 
     <main class="container" data-aos="fade-up">
         <div class="progress-section">
@@ -92,7 +79,7 @@
             <div class="progress-container">
                 <div class="progress-bar" id="mainProgress"></div>
             </div>
-            <p id="progressText" style="margin-top: 10px; font-size: 0.9rem; color: #666;">أكمل الاختبارات لفتح التحدي النهائي</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">أكمل الاختبارات لفتح التحدي النهائي</p>
         </div>
 
         <div class="downloads-grid">
@@ -102,7 +89,7 @@
                 <div class="file-icon">🫁</div>
                 <div class="file-info">
                     <h3>اختبار: الجهاز التنفسي</h3>
-                    <p>ابدأ رحلتك التعليمية من هنا</p>
+                    <p>اختبر معلوماتك في الدرس الأول</p>
                 </div>
                 <a href="quiz1.php" class="download-btn">ابدأ الاختبار</a>
             </div>
@@ -112,7 +99,7 @@
                 <div class="file-icon">❤️</div>
                 <div class="file-info">
                     <h3>اختبار: الجهاز الدوري</h3>
-                    <p>يفتح بعد النجاح في اختبار التنفس</p>
+                    <p>يفتح بعد إنهاء الدرس الأول</p>
                 </div>
                 <a href="quiz2.php" class="download-btn">ابدأ الاختبار</a>
             </div>
@@ -122,7 +109,7 @@
                 <div class="file-icon">🩸</div>
                 <div class="file-info">
                     <h3>اختبار: الدم ومكوناته</h3>
-                    <p>يفتح بعد النجاح في اختبار الدوري</p>
+                    <p>يفتح بعد إنهاء الدرس الثاني</p>
                 </div>
                 <a href="quiz3.php" class="download-btn">ابدأ الاختبار</a>
             </div>
@@ -132,7 +119,7 @@
                 <div class="file-icon">🍔</div>
                 <div class="file-info">
                     <h3>اختبار: الجهاز الهضمي</h3>
-                    <p>يفتح بعد إنهاء دروس الوحدة الأولى</p>
+                    <p>يفتح بعد إنهاء الوحدة الأولى</p>
                 </div>
                 <a href="quiz4.php" class="download-btn">ابدأ الاختبار</a>
             </div>
@@ -142,16 +129,16 @@
                 <div class="file-icon">🥗</div>
                 <div class="file-info">
                     <h3>اختبار: الغذاء الصحي</h3>
-                    <p>يفتح بعد النجاح في اختبار الهضم</p>
+                    <p>يفتح بعد إنهاء درس الهضم</p>
                 </div>
                 <a href="quiz5.php" class="download-btn">ابدأ الاختبار</a>
             </div>
 
-            <div class="download-card quiz-card locked final-challenge" id="q6">
+            <div class="download-card quiz-card locked final-challenge" id="qFinal">
                 <div class="file-icon">🏆</div>
                 <div class="file-info">
                     <h3>الاختبار الشامل (المنهج كاملاً)</h3>
-                    <p>تحدي الوحش النهائي لجميع الدروس</p>
+                    <p>تحدي الوحش النهائي لجميع دروس المنهج</p>
                 </div>
                 <a href="quiz-final.php" class="download-btn" style="background:#f1c40f; color:#000;">بدء التحدي الكبير</a>
             </div>
@@ -159,52 +146,43 @@
         </div>
     </main>
 
-<script>
-function checkProgress() {
+    <script>
+    function checkProgress() {
     fetch('get_progress.php')
     .then(response => response.json())
     .then(data => {
-        // نأخذ عدد الاختبارات المكتملة من السيرفر
-        let completedCount = parseInt(data.completed_count) || 0;
+        let completed = parseInt(data.completed_count);
+        let progress = (completed / 6) * 100;
         
-        // 1. تحديث شريط التقدم (بفرض أن هناك 6 اختبارات إجمالاً)
-        const totalQuizzes = 6;
-        let progressPercent = (completedCount / totalQuizzes) * 100;
-        document.getElementById('mainProgress').style.width = progressPercent + '%';
-        
-        if(completedCount === totalQuizzes) {
-            document.getElementById('progressText').innerHTML = "✨ تهانينا يا بطل! لقد أتممت جميع الاختبارات بنجاح.";
+        if(document.getElementById('mainProgress')) {
+            document.getElementById('mainProgress').style.width = progress + '%';
         }
 
-        // 2. فتح الاختبارات التالية
-        // القاعدة: إذا نجح في (1) يفتح (2)، نجح في (2) يفتح (3)... وهكذا
-        for (let i = 2; i <= totalQuizzes; i++) {
+        // فتح الاختبارات المقفولة بناءً على الداتا اللي جاية من السيرفر
+        for (let i = 2; i <= 5; i++) {
             let qBox = document.getElementById('q' + i);
-            if (qBox && completedCount >= (i - 1)) {
+            if (qBox && completed >= i - 1) {
                 qBox.classList.remove('locked');
-                // تغيير نص الوصف عند الفتح (اختياري)
-                let pTag = qBox.querySelector('.file-info p');
-                if(pTag) pTag.innerText = "هذا الاختبار متاح الآن، بالتوفيق!";
             }
         }
-    })
-    .catch(err => console.error('خطأ في جلب البيانات:', err));
+        
+        if (completed >= 5) {
+            let qFinal = document.getElementById('qFinal');
+            if(qFinal) qFinal.classList.remove('locked');
+        }
+    });
 }
 
-// تشغيل الفحص فور تحميل الصفحة
-document.addEventListener('DOMContentLoaded', checkProgress);
-
-// تشغيل AOS للأنيميشن
-if (typeof AOS !== 'undefined') {
+    // تشغيل الدالة عند تحميل الصفحة
+    window.onload = checkProgress;
+</script>
+<script src="script.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
     AOS.init({
         duration: 800,
         once: true
     });
-}
-</script>
-
-<script src="script.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
+ </script>
 </body>
 </html>
