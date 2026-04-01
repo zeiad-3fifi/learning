@@ -1,105 +1,180 @@
+<?php
+session_start();
+include('db_connect.php');
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار الدم ومكوناته</title>
+    <title>اختبار الدم ومكوناته | الحقيبة التعليمية</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #f9f9f9; }
-        .quiz-container { max-width: 700px; margin: 30px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .q-section { margin-bottom: 20px; padding: 15px; border-right: 5px solid #e91e63; background: #fff5f8; border-radius: 5px; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .opt-card { background: #fff; border: 1px solid #ddd; padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; transition: 0.3s; display: block; }
+        :root { --primary: #9b1c1c; --success: #27ae60; --danger: #e74c3c; --bg: #fdf2f2; }
+        body { background-color: var(--bg); font-family: 'Tajawal', sans-serif; }
+        .quiz-container { max-width: 800px; margin: 30px auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .q-section { margin-bottom: 25px; padding: 20px; border-right: 6px solid var(--primary); background: #fdfdfd; border-radius: 10px; }
+        .q-text { font-size: 1.1rem; font-weight: bold; color: #333; margin-bottom: 15px; display: block; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .opt-card { background: #fff; border: 2px solid #ddd; padding: 12px; border-radius: 10px; cursor: pointer; text-align: center; transition: 0.3s; font-weight: 600; }
         input[type="radio"] { display: none; }
-        input[type="radio"]:checked + label { background: #e91e63; color: white; border-color: #ad1457; }
-        .btn-submit { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-family: 'Tajawal'; }
-        #result-box { display: none; text-align: center; padding: 30px; }
-        b { color: #880e4f; }
+        input[type="radio"]:checked + label { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); }
+        .btn-submit { width: 100%; padding: 18px; background: var(--success); color: white; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        #timer-box { position: sticky; top: 10px; z-index: 100; background: white; padding: 8px 20px; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: fit-content; margin: 0 auto 20px; border: 2px solid var(--primary); font-weight: bold; }
+        #result-box { display: none; text-align: center; padding: 40px; }
     </style>
 </head>
 <body>
-
     <div class="container">
         <div class="quiz-container" id="quiz-ui">
-            <h2 style="text-align: center; color: #e91e63;">🩸 اختبار: الدم ومكوناته</h2>
+            <div id="timer-box">⏱️ الوقت المتبقي: <span id="time-left">05:00</span></div>
+            <h2 style="text-align: center; color: var(--primary);">🩸 اختبار الدرس الثالث: الدم ومكوناته</h2>
+            
             <form id="qForm">
-                <div class="q-section"><b>1. المادة التي تعطي الدم لونه الأحمر هي:</b>
+                <h4 style="color: var(--primary); margin-bottom: 20px;">أولاً: اختر الإجابة الصحيحة</h4>
+
+                <div class="q-section">
+                    <span class="q-text">1. الجزء السائل من الدم الذي تسبح فيه المكونات هو:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q1" id="q1a" value="1"><label class="opt-card" for="q1a">الهيموجلوبين</label>
-                        <input type="radio" name="q1" id="q1b" value="0"><label class="opt-card" for="q1b">البلازما</label>
+                        <input type="radio" name="q1" id="q1a" value="1"><label class="opt-card" for="q1a">البلازما</label>
+                        <input type="radio" name="q1" id="q1b" value="0"><label class="opt-card" for="q1b">الصفائح</label>
                     </div>
                 </div>
 
-                <div class="q-section"><b>2. عند حدوث جرح، ما الذي يساعد على تجلط الدم؟</b>
+                <div class="q-section">
+                    <span class="q-text">2. الخلايا المسؤولة عن نقل الأكسجين بفضل الهيموجلوبين هي:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q2" id="q2a" value="1"><label class="opt-card" for="q2a">الصفائح الدموية</label>
+                        <input type="radio" name="q2" id="q2a" value="1"><label class="opt-card" for="q2a">خلايا الدم الحمراء</label>
                         <input type="radio" name="q2" id="q2b" value="0"><label class="opt-card" for="q2b">خلايا الدم البيضاء</label>
                     </div>
                 </div>
 
-                <div class="q-section"><b>3. سائل يميل لونه للصفرة ويشكل أكثر من نصف حجم الدم:</b>
+                <div class="q-section">
+                    <span class="q-text">3. المكون المسؤول عن تكوين الجلطة ووقف النزيف هو:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q3" id="q3a" value="1"><label class="opt-card" for="q3a">البلازما</label>
-                        <input type="radio" name="q3" id="q3b" value="0"><label class="opt-card" for="q3b">الأكسجين</label>
+                        <input type="radio" name="q3" id="q3a" value="1"><label class="opt-card" for="q3a">الصفائح الدموية</label>
+                        <input type="radio" name="q3" id="q3b" value="0"><label class="opt-card" for="q3b">البلازما</label>
                     </div>
                 </div>
 
-                <div class="q-section"><b>4. وظيفة خلايا الدم البيضاء هي:</b>
+                <div class="q-section">
+                    <span class="q-text">4. تعتبر "الجيش" الذي يحمي الجسم من الميكروبات:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q4" id="q4a" value="1"><label class="opt-card" for="q4a">الدفاع عن الجسم</label>
-                        <input type="radio" name="q4" id="q4b" value="0"><label class="opt-card" for="q4b">نقل الغذاء</label>
+                        <input type="radio" name="q4" id="q4a" value="0"><label class="opt-card" for="q4a">الخلايا الحمراء</label>
+                        <input type="radio" name="q4" id="q4b" value="1"><label class="opt-card" for="q4b">الخلايا البيضاء</label>
                     </div>
                 </div>
 
-                <div class="q-section"><b>5. نقص كرات الدم الحمراء يسبب مرض:</b>
+                <div class="q-section">
+                    <span class="q-text">5. ما هو لون الدم عند الإنسان السليم؟</span>
                     <div class="options-grid">
-                        <input type="radio" name="q5" id="q5a" value="1"><label class="opt-card" for="q5a">الأنيميا</label>
-                        <input type="radio" name="q5" id="q5b" value="0"><label class="opt-card" for="q5b">السكر</label>
+                        <input type="radio" name="q5" id="q5a" value="1"><label class="opt-card" for="q5a">أحمر</label>
+                        <input type="radio" name="q5" id="q5b" value="0"><label class="opt-card" for="q5b">أزرق</label>
                     </div>
                 </div>
 
-                <button type="button" onclick="calculateResult(3)" class="btn-submit">عرض النتيجة وفتح الدرس التالي</button>
+                <h4 style="color: #e67e22; margin: 30px 0 20px;">ثانياً: ضع علامة صح أو خطأ</h4>
+
+                <div class="q-section">
+                    <span class="q-text">6. البلازما تتكون معظمها من الماء وتنقل الغذاء المهضوم.</span>
+                    <div class="options-grid">
+                        <input type="radio" name="q6" id="q6t" value="1"><label class="opt-card" for="q6t">✅ صح</label>
+                        <input type="radio" name="q6" id="q6f" value="0"><label class="opt-card" for="q6f">❌ خطأ</label>
+                    </div>
+                </div>
+
+                <div class="q-section">
+                    <span class="q-text">7. خلايا الدم الحمراء لها نواة واضحة وكبيرة.</span>
+                    <div class="options-grid">
+                        <input type="radio" name="q7" id="q7t" value="0"><label class="opt-card" for="q7t">✅ صح</label>
+                        <input type="radio" name="q7" id="q7f" value="1"><label class="opt-card" for="q7f">❌ خطأ</label>
+                    </div>
+                </div>
+
+                <div class="q-section">
+                    <span class="q-text">8. الهيموجلوبين هو المادة التي تعطي الدم لونه الأحمر.</span>
+                    <div class="options-grid">
+                        <input type="radio" name="q8" id="q8t" value="1"><label class="opt-card" for="q8t">✅ صح</label>
+                        <input type="radio" name="q8" id="q8f" value="0"><label class="opt-card" for="q8f">❌ خطأ</label>
+                    </div>
+                </div>
+
+                <div class="q-section">
+                    <span class="q-text">9. يتم إنتاج خلايا الدم داخل نخاع العظام.</span>
+                    <div class="options-grid">
+                        <input type="radio" name="q9" id="q9t" value="1"><label class="opt-card" for="q9t">✅ صح</label>
+                        <input type="radio" name="q9" id="q9f" value="0"><label class="opt-card" for="q9f">❌ خطأ</label>
+                    </div>
+                </div>
+
+                <div class="q-section">
+                    <span class="q-text">10. نقص خلايا الدم الحمراء يسبب مرض فقر الدم (الأنيميا).</span>
+                    <div class="options-grid">
+                        <input type="radio" name="q10" id="q10t" value="1"><label class="opt-card" for="q10t">✅ صح</label>
+                        <input type="radio" name="q10" id="q10f" value="0"><label class="opt-card" for="q10f">❌ خطأ</label>
+                    </div>
+                </div>
+
+                <button type="button" onclick="calculateResult(3)" class="btn-submit">عرض النتيجة وحفظ التقدم 🧪</button>
             </form>
         </div>
 
         <div id="result-box" class="quiz-container">
-            <h1 id="score-text" style="color: #e91e63;"></h1>
-            <p id="feedback" style="font-size: 1.2rem; margin-bottom: 20px;"></p>
-            <a href="quizzes.php" class="btn-submit" style="text-decoration: none; display: block; text-align: center;">العودة لصفحة الاختبارات</a>
+            <h1 id="score-text"></h1>
+            <p id="feedback" style="font-size: 1.2rem; margin: 20px 0;"></p>
+            <div style="display: flex; gap: 10px;">
+                <a href="leaderboard.php" class="btn-submit" style="text-decoration: none; background: #f39c12;">🏆 لوحة الشرف</a>
+                <a href="index.php" class="btn-submit" style="text-decoration: none;">🏠 الرئيسية</a>
+            </div>
         </div>
     </div>
 
     <script>
-        function calculateResult(lessonID) {
+        let timeLeft = 300;
+        const timerDisplay = document.getElementById('time-left');
+
+        const timer = setInterval(() => {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            timerDisplay.innerHTML = `${minutes}:${seconds}`;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                calculateResult(3);
+            }
+            timeLeft--;
+        }, 1000);
+
+        function calculateResult(quizID) {
+            clearInterval(timer);
             let score = 0;
-            const form = document.getElementById('qForm');
-            const data = new FormData(form);
-            
-            // نجمع الدرجات
-            let answeredQuestions = 0;
-            for (let v of data.values()) { 
-                score += parseInt(v); 
-                answeredQuestions++;
-            }
+            const data = new FormData(document.getElementById('qForm'));
+            for (let v of data.values()) { score += parseInt(v); }
 
-            // إخفاء الأسئلة وإظهار النتيجة مثل كويز 2
-            document.getElementById('quiz-ui').style.display = 'none';
-            document.getElementById('result-box').style.display = 'block';
-            
-            // نعدل النص بناءً على النتيجة (الأسئلة هنا 5)
-            document.getElementById('score-text').innerText = `درجتك: ${score} من 5`;
-
-            if(score >= 4) {
-                document.getElementById('feedback').innerText = "أحسنت! لقد أجبت بشكل رائع على أسئلة مكونات الدم.";
-                localStorage.setItem('quizCompleted', lessonID);
-            } else {
-                document.getElementById('feedback').innerText = "تحتاج لمراجعة الدرس مرة أخرى، حاول مجدداً!";
-                document.getElementById('feedback').style.color = "red";
-            }
+            fetch('save_score.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `quiz_id=${quizID}&score=${score}`
+            })
+            .then(() => {
+                document.getElementById('quiz-ui').style.display = 'none';
+                document.getElementById('result-box').style.display = 'block';
+                document.getElementById('score-text').innerText = `درجتك: ${score} من 10`;
+                const fb = document.getElementById('feedback');
+                if(score >= 7) {
+                    fb.innerText = "أحسنت! أنت الآن خبير بمكونات الدم 🩺";
+                    fb.style.color = "var(--success)";
+                } else {
+                    fb.innerText = "حاول مراجعة وظيفة كل خلية في الدم وأعد الاختبار! 💪";
+                    fb.style.color = "var(--danger)";
+                }
+            });
         }
     </script>
-    <script src="script.js"></script>
 </body>
 </html>

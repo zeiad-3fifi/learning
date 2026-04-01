@@ -148,26 +148,30 @@
 
     <script>
     function checkProgress() {
-        // جلب رقم آخر اختبار تم إنجازه من ذاكرة المتصفح
-        let completed = localStorage.getItem('quizCompleted') || 0;
-        completed = parseInt(completed);
-
-        // حساب النسبة المئوية (عندنا 5 دروس + اختبار شامل = 6 خطوات)
+    fetch('get_progress.php')
+    .then(response => response.json())
+    .then(data => {
+        let completed = parseInt(data.completed_count);
         let progress = (completed / 6) * 100;
-        document.getElementById('mainProgress').style.width = progress + '%';
+        
+        if(document.getElementById('mainProgress')) {
+            document.getElementById('mainProgress').style.width = progress + '%';
+        }
 
-        // فتح الاختبارات بناءً على المنجز
+        // فتح الاختبارات المقفولة بناءً على الداتا اللي جاية من السيرفر
         for (let i = 2; i <= 5; i++) {
-            if (completed >= i - 1) {
-                document.getElementById('q' + i).classList.remove('locked');
+            let qBox = document.getElementById('q' + i);
+            if (qBox && completed >= i - 1) {
+                qBox.classList.remove('locked');
             }
         }
         
-        // فتح الاختبار الشامل إذا تم إنهاء الـ 5 دروس
         if (completed >= 5) {
-            document.getElementById('qFinal').classList.remove('locked');
+            let qFinal = document.getElementById('qFinal');
+            if(qFinal) qFinal.classList.remove('locked');
         }
-    }
+    });
+}
 
     // تشغيل الدالة عند تحميل الصفحة
     window.onload = checkProgress;

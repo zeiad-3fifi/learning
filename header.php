@@ -2,7 +2,7 @@
         <div class="logo">🧬 الحقيبة التعليمية</div>
         <ul class="nav-links">
            <label class="theme-switch">
-  <input type="checkbox" id="darkModeToggle" class="theme-switch__checkbox">
+  <input type="checkbox" id="darkModeToggle" class="theme-switch__checkbox" onclick="toggleTheme()">
   <div class="theme-switch__container">
     <div class="theme-switch__clouds"></div>
     <div class="theme-switch__stars-container">
@@ -227,6 +227,8 @@
             <li><a href="lessons.php">الدروس</a></li>
             <li><a href="downloads.php">التحميلات</a></li>
             <li><a href="quizzes.php">الاختبارات</a></li>
+            <li><a href="leaderboard.php">لوحة الشرف</a></li>
             <li><a href="contact.php">اتصل بنا</a></li>
+            <li><a href="profile.php">حسابي</a></li>
         </ul>
     </nav>

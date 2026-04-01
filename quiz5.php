@@ -1,3 +1,12 @@
+<?php
+session_start();
+include('db_connect.php');
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -5,71 +14,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اختبار الغذاء الصحي | الحقيبة التعليمية</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        .quiz-container { max-width: 700px; margin: 30px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .q-section { margin-bottom: 20px; padding: 15px; border-right: 5px solid #f1c40f; background: #fffdf2; }
-        .q-text { font-weight: bold; margin-bottom: 10px; display: block; color: #9a7d0a; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .opt-card { background: #fff; border: 1px solid #ddd; padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; transition: 0.3s; }
+        :root { --primary: #2ecc71; --success: #27ae60; --danger: #e74c3c; --bg: #f4fff8; }
+        body { background-color: var(--bg); font-family: 'Tajawal', sans-serif; }
+        .quiz-container { max-width: 800px; margin: 30px auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .q-section { margin-bottom: 25px; padding: 20px; border-right: 6px solid var(--primary); background: #f9fdfa; border-radius: 10px; }
+        .q-text { font-size: 1.1rem; font-weight: bold; color: #333; margin-bottom: 15px; display: block; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .opt-card { background: #fff; border: 2px solid #ddd; padding: 12px; border-radius: 10px; cursor: pointer; text-align: center; transition: 0.3s; font-weight: 600; }
         input[type="radio"] { display: none; }
-        input[type="radio"]:checked + label { background: #f1c40f; color: #000; border-color: #9a7d0a; }
-        .btn-submit { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-family: 'Tajawal'; }
-        #result-box { display: none; text-align: center; padding: 30px; }
+        input[type="radio"]:checked + label { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); }
+        .btn-submit { width: 100%; padding: 18px; background: var(--success); color: white; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        #timer-box { position: sticky; top: 10px; z-index: 100; background: white; padding: 8px 20px; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: fit-content; margin: 0 auto 20px; border: 2px solid var(--primary); font-weight: bold; }
+        #result-box { display: none; text-align: center; padding: 40px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="quiz-container" id="quiz-ui">
-            <h2 style="text-align: center; color: #f1c40f; text-shadow: 1px 1px 2px #aaa;">🥗 اختبار: الغذاء الصحي</h2>
+            <div id="timer-box">⏱️ الوقت المتبقي: <span id="time-left">05:00</span></div>
+            <h2 style="text-align: center; color: var(--primary);">🍏 اختبار الدرس الخامس: الغذاء الصحي</h2>
+            
             <form id="qForm">
-                
-                <h4 style="color: #9a7d0a;">أولاً: اختر الإجابة الصحيحة</h4>
-                
+                <h4 style="color: var(--primary); margin-bottom: 20px;">أولاً: اختر الإجابة الصحيحة</h4>
+
                 <div class="q-section">
-                    <span class="q-text">1. العنصر الغذائي الأساسي لبناء العضلات وترميم الأنسجة هو:</span>
+                    <span class="q-text">1. المجموعات الغذائية التي تمد الجسم بالطاقة السريعة هي:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q1" id="q1a" value="1"><label class="opt-card" for="q1a">البروتينات</label>
-                        <input type="radio" name="q1" id="q1b" value="0"><label class="opt-card" for="q1b">الدهون</label>
+                        <input type="radio" name="q1" id="q1a" value="1"><label class="opt-card" for="q1a">الكربوهيدرات</label>
+                        <input type="radio" name="q1" id="q1b" value="0"><label class="opt-card" for="q1b">الفيتامينات</label>
                     </div>
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">2. المصدر الرئيسي والسرير للحصول على الطاقة في الجسم هو:</span>
+                    <span class="q-text">2. تساعد البروتينات الجسم في:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q2" id="q2a" value="1"><label class="opt-card" for="q2a">الكربوهيدرات</label>
-                        <input type="radio" name="q2" id="q2b" value="0"><label class="opt-card" for="q2b">الأملاح</label>
+                        <input type="radio" name="q2" id="q2a" value="1"><label class="opt-card" for="q2a">بناء العضلات والنمو</label>
+                        <input type="radio" name="q2" id="q2b" value="0"><label class="opt-card" for="q2b">تسوس الأسنان</label>
                     </div>
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">3. فيتامين C الذي يقوي المناعة يوجد بكثرة في:</span>
+                    <span class="q-text">3. الفواكه والخضروات غنية بـ:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q3" id="q3a" value="1"><label class="opt-card" for="q3a">الحمضيات (كالبرتقال)</label>
-                        <input type="radio" name="q3" id="q3b" value="0"><label class="opt-card" for="q3b">الخبز</label>
+                        <input type="radio" name="q3" id="q3a" value="1"><label class="opt-card" for="q3a">الفيتامينات والألياف</label>
+                        <input type="radio" name="q3" id="q3b" value="0"><label class="opt-card" for="q3b">الدهون الضارة</label>
                     </div>
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">4. عنصر الكالسيوم مهم جداً لصحة:</span>
+                    <span class="q-text">4. العنصر الضروري لبناء عظام وأسنان قوية هو:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q4" id="q4a" value="1"><label class="opt-card" for="q4a">العظام والأسنان</label>
-                        <input type="radio" name="q4" id="q4b" value="0"><label class="opt-card" for="q4b">العين</label>
+                        <input type="radio" name="q4" id="q4a" value="1"><label class="opt-card" for="q4a">الكالسيوم</label>
+                        <input type="radio" name="q4" id="q4b" value="0"><label class="opt-card" for="q4b">السكر</label>
                     </div>
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">5. يمثل الماء حوالي كم من وزن جسم الإنسان؟</span>
+                    <span class="q-text">5. يجب علينا شرب كمية كافية من الماء يومياً لـ:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q5" id="q5a" value="1"><label class="opt-card" for="q5a">60% - 70%</label>
-                        <input type="radio" name="q5" id="q5b" value="0"><label class="opt-card" for="q5b">10% فقط</label>
+                        <input type="radio" name="q5" id="q5a" value="1"><label class="opt-card" for="q5a">طرد السموم وترطيب الجسم</label>
+                        <input type="radio" name="q5" id="q5b" value="0"><label class="opt-card" for="q5b">زيادة الوزن</label>
                     </div>
                 </div>
 
-                <h4 style="color: #e67e22; margin-top: 20px;">ثانياً: ضع علامة صح أو خطأ</h4>
+                <h4 style="color: #27ae60; margin: 30px 0 20px;">ثانياً: ضع علامة صح أو خطأ</h4>
 
                 <div class="q-section">
-                    <span class="q-text">6. الألياف النباتية تساعد في تحسين عملية الهضم ومنع الإمساك.</span>
+                    <span class="q-text">6. الغذاء المتوازن يجب أن يحتوي على جميع العناصر الغذائية بنسب سليمة.</span>
                     <div class="options-grid">
                         <input type="radio" name="q6" id="q6t" value="1"><label class="opt-card" for="q6t">✅ صح</label>
                         <input type="radio" name="q6" id="q6f" value="0"><label class="opt-card" for="q6f">❌ خطأ</label>
@@ -77,7 +89,7 @@
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">7. الوجبات السريعة مفيدة جداً للجسم لأنها تحتوي على دهون كثيرة.</span>
+                    <span class="q-text">7. الوجبات السريعة (Fast Food) مفيدة جداً لصحة القلب.</span>
                     <div class="options-grid">
                         <input type="radio" name="q7" id="q7t" value="0"><label class="opt-card" for="q7t">✅ صح</label>
                         <input type="radio" name="q7" id="q7f" value="1"><label class="opt-card" for="q7f">❌ خطأ</label>
@@ -85,7 +97,7 @@
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">8. وجبة الإفطار تمد الجسم بالطاقة اللازمة لبدء اليوم الدراسي.</span>
+                    <span class="q-text">8. الألياف الموجودة في الخبز الأسمر تساعد في عملية الهضم.</span>
                     <div class="options-grid">
                         <input type="radio" name="q8" id="q8t" value="1"><label class="opt-card" for="q8t">✅ صح</label>
                         <input type="radio" name="q8" id="q8f" value="0"><label class="opt-card" for="q8f">❌ خطأ</label>
@@ -93,7 +105,7 @@
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">9. الجسم يحتاج للفيتامينات بكميات كبيرة جداً مثل الكربوهيدرات.</span>
+                    <span class="q-text">9. السكريات والحلويات بكثرة لا تسبب أي ضرر للجسم.</span>
                     <div class="options-grid">
                         <input type="radio" name="q9" id="q9t" value="0"><label class="opt-card" for="q9t">✅ صح</label>
                         <input type="radio" name="q9" id="q9f" value="1"><label class="opt-card" for="q9f">❌ خطأ</label>
@@ -101,44 +113,68 @@
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">10. السكريات تعطي طاقة، لكن كثرتها تسبب السمنة وتسوس الأسنان.</span>
+                    <span class="q-text">10. غسل الفواكه والخضروات قبل أكلها من القواعد الصحية المهمة.</span>
                     <div class="options-grid">
                         <input type="radio" name="q10" id="q10t" value="1"><label class="opt-card" for="q10t">✅ صح</label>
                         <input type="radio" name="q10" id="q10f" value="0"><label class="opt-card" for="q10f">❌ خطأ</label>
                     </div>
                 </div>
 
-                <button type="button" onclick="calculateResult(5)" class="btn-submit">عرض النتيجة وفتح الاختبار الشامل</button>
+                <button type="button" onclick="calculateResult(5)" class="btn-submit">عرض النتيجة وحفظ التقدم 🍎</button>
             </form>
         </div>
 
         <div id="result-box" class="quiz-container">
             <h1 id="score-text"></h1>
-            <p id="feedback"></p>
-            <a href="quizzes.php" class="btn-submit" style="text-decoration: none; display: block; text-align: center;">العودة لصفحة الاختبارات</a>
+            <p id="feedback" style="font-size: 1.2rem; margin: 20px 0;"></p>
+            <div style="display: flex; gap: 10px;">
+                <a href="leaderboard.php" class="btn-submit" style="text-decoration: none; background: #f39c12;">🏆 لوحة الشرف</a>
+                <a href="index.php" class="btn-submit" style="text-decoration: none;">🏠 الرئيسية</a>
+            </div>
         </div>
     </div>
 
     <script>
-        function calculateResult(lessonID) {
+        let timeLeft = 300;
+        const timerDisplay = document.getElementById('time-left');
+
+        const timer = setInterval(() => {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            timerDisplay.innerHTML = `${minutes}:${seconds}`;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                calculateResult(5);
+            }
+            timeLeft--;
+        }, 1000);
+
+        function calculateResult(quizID) {
+            clearInterval(timer);
             let score = 0;
             const data = new FormData(document.getElementById('qForm'));
             for (let v of data.values()) { score += parseInt(v); }
 
-            document.getElementById('quiz-ui').style.display = 'none';
-            document.getElementById('result-box').style.display = 'block';
-            document.getElementById('score-text').innerText = `درجتك: ${score} من 10`;
-
-            if(score >= 7) {
-                document.getElementById('feedback').innerText = "رائع يا بطل! لقد أتممت جميع دروس المنهج بنجاح. الاختبار الشامل متاح الآن!";
-                let lastDone = localStorage.getItem('quizCompleted') || 0;
-                if(lessonID > lastDone) localStorage.setItem('quizCompleted', lessonID);
-            } else {
-                document.getElementById('feedback').innerText = "تحتاج لمراجعة الدرس مرة أخرى لتحصل على 7 درجات وتفتح الاختبار الشامل.";
-                document.getElementById('feedback').style.color = "#c0392b";
-            }
+            fetch('save_score.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `quiz_id=${quizID}&score=${score}`
+            })
+            .then(() => {
+                document.getElementById('quiz-ui').style.display = 'none';
+                document.getElementById('result-box').style.display = 'block';
+                document.getElementById('score-text').innerText = `درجتك: ${score} من 10`;
+                const fb = document.getElementById('feedback');
+                if(score >= 7) {
+                    fb.innerText = "أحسنت! أنت الآن بطل التغذية الصحية 🎉";
+                    fb.style.color = "var(--success)";
+                } else {
+                    fb.innerText = "راجع الهرم الغذائي وحاول مرة أخرى لتكسب صحتك! 💪";
+                    fb.style.color = "var(--danger)";
+                }
+            });
         }
     </script>
-    <script src="script.js"></script>
 </body>
 </html>

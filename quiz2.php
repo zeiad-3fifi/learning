@@ -1,3 +1,12 @@
+<?php
+session_start();
+include('db_connect.php');
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -5,37 +14,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اختبار الجهاز الدوري | الحقيبة التعليمية</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        .quiz-container { max-width: 700px; margin: 30px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .q-section { margin-bottom: 20px; padding: 15px; border-right: 5px solid #e74c3c; background: #fff5f5; }
-        .q-text { font-weight: bold; margin-bottom: 10px; display: block; color: #c0392b; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .opt-card { background: #fff; border: 1px solid #ddd; padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; transition: 0.3s; }
+        :root { --primary: #e74c3c; --success: #27ae60; --danger: #c0392b; --bg: #fdf2f2; }
+        body { background-color: var(--bg); font-family: 'Tajawal', sans-serif; }
+        .quiz-container { max-width: 800px; margin: 30px auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .q-section { margin-bottom: 25px; padding: 20px; border-right: 6px solid var(--primary); background: #fffcfc; border-radius: 10px; }
+        .q-text { font-size: 1.1rem; font-weight: bold; color: #333; margin-bottom: 15px; display: block; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .opt-card { background: #fff; border: 2px solid #ddd; padding: 12px; border-radius: 10px; cursor: pointer; text-align: center; transition: 0.3s; font-weight: 600; }
         input[type="radio"] { display: none; }
-        input[type="radio"]:checked + label { background: #e74c3c; color: white; border-color: #c0392b; }
-        .btn-submit { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-family: 'Tajawal'; }
-        #result-box { display: none; text-align: center; padding: 30px; }
+        input[type="radio"]:checked + label { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); }
+        .btn-submit { width: 100%; padding: 18px; background: var(--success); color: white; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        #timer-box { position: sticky; top: 10px; z-index: 100; background: white; padding: 8px 20px; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: fit-content; margin: 0 auto 20px; border: 2px solid var(--primary); font-weight: bold; }
+        #result-box { display: none; text-align: center; padding: 40px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="quiz-container" id="quiz-ui">
-            <h2 style="text-align: center; color: #e74c3c;">❤️ اختبار: الجهاز الدوري</h2>
+            <div id="timer-box">⏱️ الوقت المتبقي: <span id="time-left">05:00</span></div>
+            <h2 style="text-align: center; color: var(--primary);">❤️ اختبار الدرس الثاني: الجهاز الدوري</h2>
+            
             <form id="qForm">
-                
-                <h4 style="color: #c0392b;">أولاً: اختر الإجابة الصحيحة</h4>
-                
+                <h4 style="color: var(--primary); margin-bottom: 20px;">أولاً: اختر الإجابة الصحيحة</h4>
+
                 <div class="q-section">
-                    <span class="q-text">1. العضو الأساسي في الجهاز الدوري الذي يضخ الدم هو:</span>
+                    <span class="q-text">1. العضو الرئيسي في الجهاز الدوري هو:</span>
                     <div class="options-grid">
                         <input type="radio" name="q1" id="q1a" value="1"><label class="opt-card" for="q1a">القلب</label>
-                        <input type="radio" name="q1" id="q1b" value="0"><label class="opt-card" for="q1b">الكبد</label>
+                        <input type="radio" name="q1" id="q1b" value="0"><label class="opt-card" for="q1b">الرئة</label>
                     </div>
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">2. الأوعية التي تنقل الدم من القلب لجميع أجزاء الجسم:</span>
+                    <span class="q-text">2. الأوعية التي تنقل الدم من القلب إلى أجزاء الجسم:</span>
                     <div class="options-grid">
                         <input type="radio" name="q2" id="q2a" value="1"><label class="opt-card" for="q2a">الشرايين</label>
                         <input type="radio" name="q2" id="q2b" value="0"><label class="opt-card" for="q2b">الأوردة</label>
@@ -46,7 +58,7 @@
                     <span class="q-text">3. يتكون قلب الإنسان من كم حجرة؟</span>
                     <div class="options-grid">
                         <input type="radio" name="q3" id="q3a" value="1"><label class="opt-card" for="q3a">أربع حجرات</label>
-                        <input type="radio" name="q3" id="q3b" value="0"><label class="opt-card" for="q3b">حجرتين فقط</label>
+                        <input type="radio" name="q3" id="q3b" value="0"><label class="opt-card" for="q3b">حجرتين</label>
                     </div>
                 </div>
 
@@ -59,17 +71,17 @@
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">5. خلايا الدم المسؤولة عن محاربة الميكروبات هي:</span>
+                    <span class="q-text">5. وظيفة خلايا الدم الحمراء هي نقل:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q5" id="q5a" value="1"><label class="opt-card" for="q5a">خلايا الدم البيضاء</label>
-                        <input type="radio" name="q5" id="q5b" value="0"><label class="opt-card" for="q5b">خلايا الدم الحمراء</label>
+                        <input type="radio" name="q5" id="q5a" value="1"><label class="opt-card" for="q5a">الأكسجين</label>
+                        <input type="radio" name="q5" id="q5b" value="0"><label class="opt-card" for="q5b">الجراثيم</label>
                     </div>
                 </div>
 
-                <h4 style="color: #e67e22; margin-top: 20px;">ثانياً: ضع علامة صح أو خطأ</h4>
+                <h4 style="color: #e67e22; margin: 30px 0 20px;">ثانياً: ضع علامة صح أو خطأ</h4>
 
                 <div class="q-section">
-                    <span class="q-text">6. وظيفة خلايا الدم الحمراء هي نقل الأكسجين.</span>
+                    <span class="q-text">6. الأوردة تعيد الدم من الجسم إلى القلب.</span>
                     <div class="options-grid">
                         <input type="radio" name="q6" id="q6t" value="1"><label class="opt-card" for="q6t">✅ صح</label>
                         <input type="radio" name="q6" id="q6f" value="0"><label class="opt-card" for="q6f">❌ خطأ</label>
@@ -77,7 +89,7 @@
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">7. الأوردة تعيد الدم من الجسم إلى القلب.</span>
+                    <span class="q-text">7. خلايا الدم البيضاء تساعد في الدفاع عن الجسم ضد الأمراض.</span>
                     <div class="options-grid">
                         <input type="radio" name="q7" id="q7t" value="1"><label class="opt-card" for="q7t">✅ صح</label>
                         <input type="radio" name="q7" id="q7f" value="0"><label class="opt-card" for="q7f">❌ خطأ</label>
@@ -85,7 +97,7 @@
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">8. الصفائح الدموية تساعد في تجلط الدم عند الجروح.</span>
+                    <span class="q-text">8. حجم قلب الإنسان يعادل تقريباً حجم قبضة يده.</span>
                     <div class="options-grid">
                         <input type="radio" name="q8" id="q8t" value="1"><label class="opt-card" for="q8t">✅ صح</label>
                         <input type="radio" name="q8" id="q8f" value="0"><label class="opt-card" for="q8f">❌ خطأ</label>
@@ -93,52 +105,76 @@
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">9. ينبض القلب فقط عندما نكون نائمين.</span>
+                    <span class="q-text">9. الصفائح الدموية تساعد في وقف النزيف عند الجروح.</span>
                     <div class="options-grid">
-                        <input type="radio" name="q9" id="q9t" value="0"><label class="opt-card" for="q9t">✅ صح</label>
-                        <input type="radio" name="q9" id="q9f" value="1"><label class="opt-card" for="q9f">❌ خطأ</label>
+                        <input type="radio" name="q9" id="q9t" value="1"><label class="opt-card" for="q9t">✅ صح</label>
+                        <input type="radio" name="q9" id="q9f" value="0"><label class="opt-card" for="q9f">❌ خطأ</label>
                     </div>
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">10. الدورة الدموية هي مسار الدم داخل الجسم.</span>
+                    <span class="q-text">10. القلب يتوقف عن العمل تماماً أثناء النوم.</span>
                     <div class="options-grid">
-                        <input type="radio" name="q10" id="q10t" value="1"><label class="opt-card" for="q10t">✅ صح</label>
-                        <input type="radio" name="q10" id="q10f" value="0"><label class="opt-card" for="q10f">❌ خطأ</label>
+                        <input type="radio" name="q10" id="q10t" value="0"><label class="opt-card" for="q10t">✅ صح</label>
+                        <input type="radio" name="q10" id="q10f" value="1"><label class="opt-card" for="q10f">❌ خطأ</label>
                     </div>
                 </div>
 
-                <button type="button" onclick="calculateResult(2)" class="btn-submit">عرض النتيجة وفتح الدرس الثالث</button>
+                <button type="button" onclick="calculateResult(2)" class="btn-submit">عرض النتيجة وحفظ التقدم ❤️</button>
             </form>
         </div>
 
         <div id="result-box" class="quiz-container">
             <h1 id="score-text"></h1>
-            <p id="feedback"></p>
-            <a href="quizzes.php" class="btn-submit" style="text-decoration: none; display: block; text-align: center;">العودة لصفحة الاختبارات</a>
+            <p id="feedback" style="font-size: 1.2rem; margin: 20px 0;"></p>
+            <div style="display: flex; gap: 10px;">
+                <a href="leaderboard.php" class="btn-submit" style="text-decoration: none; background: #f39c12;">🏆 لوحة الشرف</a>
+                <a href="index.php" class="btn-submit" style="text-decoration: none;">🏠 الرئيسية</a>
+            </div>
         </div>
     </div>
 
     <script>
-        function calculateResult(lessonID) {
+        let timeLeft = 300;
+        const timerDisplay = document.getElementById('time-left');
+
+        const timer = setInterval(() => {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            timerDisplay.innerHTML = `${minutes}:${seconds}`;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                calculateResult(2);
+            }
+            timeLeft--;
+        }, 1000);
+
+        function calculateResult(quizID) {
+            clearInterval(timer);
             let score = 0;
             const data = new FormData(document.getElementById('qForm'));
             for (let v of data.values()) { score += parseInt(v); }
 
-            document.getElementById('quiz-ui').style.display = 'none';
-            document.getElementById('result-box').style.display = 'block';
-            document.getElementById('score-text').innerText = `درجتك: ${score} من 10`;
-
-            if(score >= 7) {
-                document.getElementById('feedback').innerText = "أحسنت! لقد نجحت في اختبار الجهاز الدوري.";
-                let lastDone = localStorage.getItem('quizCompleted') || 0;
-                if(lessonID > lastDone) localStorage.setItem('quizCompleted', lessonID);
-            } else {
-                document.getElementById('feedback').innerText = "للأسف لم تنجح، حاول مرة أخرى لفتح الدرس التالي.";
-                document.getElementById('feedback').style.color = "red";
-            }
+            fetch('save_score.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `quiz_id=${quizID}&score=${score}`
+            })
+            .then(() => {
+                document.getElementById('quiz-ui').style.display = 'none';
+                document.getElementById('result-box').style.display = 'block';
+                document.getElementById('score-text').innerText = `درجتك: ${score} من 10`;
+                const fb = document.getElementById('feedback');
+                if(score >= 7) {
+                    fb.innerText = "بطل حقيقي! دورتك الدموية تعمل بنشاط 🎉";
+                    fb.style.color = "var(--success)";
+                } else {
+                    fb.innerText = "راجع معلوماتك عن القلب وحاول مرة أخرى ❤️";
+                    fb.style.color = "var(--danger)";
+                }
+            });
         }
     </script>
-    <script src="script.js"></script>
 </body>
 </html>

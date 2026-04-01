@@ -400,7 +400,7 @@ body {
 .breathing-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: white;
+ /*background-color: white;*/
     text-align: center;
 }
 
