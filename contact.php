@@ -10,12 +10,25 @@
 </head>
 <body> <?php include 'header.php'; ?>
 
-    <header class="page-header" style="background: linear-gradient(135deg, var(--main-blue), var(--accent-color));">
+    <header class="page-header" data-aos="fade-down">
         <div class="container" data-aos="zoom-in">
             <h1>📧 تواصل معنا</h1>
             <p>لديك استفسار أو اقتراح؟ نحن هنا لمساعدتك!</p>
         </div>
     </header>
+    <style>body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            transition: 0.3s;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--accent), #2c82bf) !important;
+            padding: 50px 0;
+            text-align: center;
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 30px;
+        }</style>
 
     <main class="container contact-section">
         <div class="contact-grid">
