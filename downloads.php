@@ -10,7 +10,20 @@
 </head>
 <body> <?php include 'header.php'; ?>
 
-    <header class="page-header" data-aos="fade-down" style="background: linear-gradient(135deg, var(--main-blue), var(--accent-color));">
+    <header class="page-header" data-aos="fade-down" >
+        <style>body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            transition: 0.3s;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--accent), #2c82bf) !important;
+            padding: 50px 0;
+            text-align: center;
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 30px;
+        }</style>
         <div class="container">
             <h1>📂 مكتبة الوسائط والتحميلات</h1>
             <p>حمل الملفات الخاصة بكل درس (PDF - صور - عروض PPT)</p>
