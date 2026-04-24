@@ -25,12 +25,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         mysqli_query($conn, $query);
     }
 
-    // 2. تحديث تقدم المستخدم لفتح الاختبار التالي
-    // لو جاب 7 من 10 (أو 15 من 20 في النهائي) بنحدث الـ completed_lessons
-    $pass_score = ($quiz_id == 6) ? 15 : 7;
+    // --- التعديلات الجوهرية هنا ---
+
+    // 2. تحديد درجة النجاح
+    // الاختبار النهائي عادة ما يأخذ ID مختلف (مثل 7 أو 100) 
+    // وبما أن الجهاز العصبي أصبح هو رقم 6، سنفترض أن النهائي هو 7
+    $pass_score = ($quiz_id >= 7) ? 15 : 7; // الدروس العادية نجاحها من 7، والنهائي من 15
     
     if ($score >= $pass_score) {
-        // بنخلي الرقم يساوي رقم الكويز اللي خلص، بشرط ميكونش مستواه الفعلي أعلى
+        // 3. تحديث التقدم لفتح الاختبار التالي
+        // إذا نجح في الاختبار رقم 1، يصبح completed_lessons = 1 (وهذا يفتح اختبار 2 في الـ JS)
         $update_user = "UPDATE users SET completed_lessons = GREATEST(completed_lessons, $quiz_id) WHERE id = '$user_id'";
         mysqli_query($conn, $update_user);
     }

@@ -24,16 +24,18 @@ $score_query = "SELECT quiz_id, MAX(score) as best_score, MAX(created_at) as las
                 ORDER BY quiz_id ASC";
 $score_result = mysqli_query($conn, $score_query);
 
+// تحديث مصفوفة الأسماء لتشمل الدرس السادس والنهائي الجديد
 $lesson_names = [
     1 => "🫁 الجهاز التنفسي",
     2 => "❤️ الجهاز الدوري",
     3 => "🩸 مكونات الدم",
     4 => "🍔 الجهاز الهضمي",
     5 => "🍏 الغذاء الصحي",
-    6 => "🏆 الاختبار النهائي"
+    6 => "🧠 الجهاز العصبي",  // تم إضافة الدرس السادس هنا
+    7 => "🏆 الاختبار النهائي" // تم تغيير الرقم إلى 7
 ];
 
-// 3. تنفيذ تغيير الباسورد
+// 3. تنفيذ تغيير الباسورد (يبقى كما هو)
 if (isset($_POST['submit_change'])) {
     $old_pass = mysqli_real_escape_string($conn, $_POST['old_password']);
     $new_pass = mysqli_real_escape_string($conn, $_POST['new_password']);

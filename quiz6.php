@@ -12,13 +12,13 @@ if (!isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار الجهاز الدوري | الحقيبة التعليمية</title>
+    <title>اختبار الجهاز العصبي | الحقيبة التعليمية</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        :root { --primary: #e74c3c; --success: #27ae60; --danger: #c0392b; --bg: #fdf2f2; }
+        :root { --primary: #9b59b6; --success: #27ae60; --danger: #e74c3c; --bg: #f9f4fb; }
         body { background-color: var(--bg); font-family: 'Tajawal', sans-serif; }
         .quiz-container { max-width: 800px; margin: 30px auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .q-section { margin-bottom: 25px; padding: 20px; border-right: 6px solid var(--primary); background: #fffcfc; border-radius: 10px; }
+        .q-section { margin-bottom: 25px; padding: 20px; border-right: 6px solid var(--primary); background: #fefefe; border-radius: 10px; }
         .q-text { font-size: 1.1rem; font-weight: bold; color: #333; margin-bottom: 15px; display: block; }
         .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .opt-card { background: #fff; border: 2px solid #ddd; padding: 12px; border-radius: 10px; cursor: pointer; text-align: center; transition: 0.3s; font-weight: 600; }
@@ -33,55 +33,55 @@ if (!isset($_SESSION['user_id'])) {
     <div class="container">
         <div class="quiz-container" id="quiz-ui">
             <div id="timer-box">⏱️ الوقت المتبقي: <span id="time-left">05:00</span></div>
-            <h2 style="text-align: center; color: var(--primary);">❤️ اختبار الدرس الثاني: الجهاز الدوري</h2>
+            <h2 style="text-align: center; color: var(--primary);">🧠 اختبار الدرس السادس: الجهاز العصبي</h2>
             
             <form id="qForm">
                 <h4 style="color: var(--primary); margin-bottom: 20px;">أولاً: اختر الإجابة الصحيحة</h4>
 
                 <div class="q-section">
-                    <span class="q-text">1. العضو الرئيسي في الجهاز الدوري هو:</span>
+                    <span class="q-text">1. العضو الرئيسي المتحكم في جميع أنشطة الجسم هو:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q1" id="q1a" value="1"><label class="opt-card" for="q1a">القلب</label>
-                        <input type="radio" name="q1" id="q1b" value="0"><label class="opt-card" for="q1b">الرئة</label>
+                        <input type="radio" name="q1" id="q1a" value="1"><label class="opt-card" for="q1a">المخ</label>
+                        <input type="radio" name="q1" id="q1b" value="0"><label class="opt-card" for="q1b">القلب</label>
                     </div>
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">2. الأوعية التي تنقل الدم من القلب إلى أجزاء الجسم:</span>
+                    <span class="q-text">2. يتكون الجهاز العصبي المركزي من المخ و:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q2" id="q2a" value="1"><label class="opt-card" for="q2a">الشرايين</label>
-                        <input type="radio" name="q2" id="q2b" value="0"><label class="opt-card" for="q2b">الأوردة</label>
+                        <input type="radio" name="q2" id="q2a" value="1"><label class="opt-card" for="q2a">الحبل الشوكي</label>
+                        <input type="radio" name="q2" id="q2b" value="0"><label class="opt-card" for="q2b">المعدة</label>
                     </div>
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">3. يتكون قلب الإنسان من كم حجرة؟</span>
+                    <span class="q-text">3. تسمى الرسائل التي يرسلها الجهاز العصبي بـ:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q3" id="q3a" value="1"><label class="opt-card" for="q3a">أربع حجرات</label>
-                        <input type="radio" name="q3" id="q3b" value="0"><label class="opt-card" for="q3b">حجرتين</label>
+                        <input type="radio" name="q3" id="q3a" value="1"><label class="opt-card" for="q3a">السيالات العصبية</label>
+                        <input type="radio" name="q3" id="q3b" value="0"><label class="opt-card" for="q3b">الأوعية الدموية</label>
                     </div>
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">4. الجزء السائل من الدم يسمى:</span>
+                    <span class="q-text">4. العضو المسؤول عن حفظ توازن الجسم هو:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q4" id="q4a" value="1"><label class="opt-card" for="q4a">البلازما</label>
-                        <input type="radio" name="q4" id="q4b" value="0"><label class="opt-card" for="q4b">الصفائح</label>
+                        <input type="radio" name="q4" id="q4a" value="1"><label class="opt-card" for="q4a">المخيخ</label>
+                        <input type="radio" name="q4" id="q4b" value="0"><label class="opt-card" for="q4b">البلعوم</label>
                     </div>
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">5. وظيفة خلايا الدم الحمراء هي نقل:</span>
+                    <span class="q-text">5. رد الفعل المنعكس يتم التحكم فيه بشكل أساسي عن طريق:</span>
                     <div class="options-grid">
-                        <input type="radio" name="q5" id="q5a" value="1"><label class="opt-card" for="q5a">الأكسجين</label>
-                        <input type="radio" name="q5" id="q5b" value="0"><label class="opt-card" for="q5b">الجراثيم</label>
+                        <input type="radio" name="q5" id="q5a" value="1"><label class="opt-card" for="q5a">الحبل الشوكي</label>
+                        <input type="radio" name="q5" id="q5b" value="0"><label class="opt-card" for="q5b">العضلات</label>
                     </div>
                 </div>
 
-                <h4 style="color: #e67e22; margin: 30px 0 20px;">ثانياً: ضع علامة صح أو خطأ</h4>
+                <h4 style="color: #8e44ad; margin: 30px 0 20px;">ثانياً: ضع علامة صح أو خطأ</h4>
 
                 <div class="q-section">
-                    <span class="q-text">6. الأوردة تعيد الدم من الجسم إلى القلب.</span>
+                    <span class="q-text">6. الخلية العصبية هي وحدة بناء الجهاز العصبي.</span>
                     <div class="options-grid">
                         <input type="radio" name="q6" id="q6t" value="1"><label class="opt-card" for="q6t">✅ صح</label>
                         <input type="radio" name="q6" id="q6f" value="0"><label class="opt-card" for="q6f">❌ خطأ</label>
@@ -89,15 +89,15 @@ if (!isset($_SESSION['user_id'])) {
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">7. خلايا الدم البيضاء تساعد في الدفاع عن الجسم ضد الأمراض.</span>
+                    <span class="q-text">7. يعمل الجهاز العصبي بمعزل عن باقي أجهزة الجسم.</span>
                     <div class="options-grid">
-                        <input type="radio" name="q7" id="q7t" value="1"><label class="opt-card" for="q7t">✅ صح</label>
-                        <input type="radio" name="q7" id="q7f" value="0"><label class="opt-card" for="q7f">❌ خطأ</label>
+                        <input type="radio" name="q7" id="q7t" value="0"><label class="opt-card" for="q7t">✅ صح</label>
+                        <input type="radio" name="q7" id="q7f" value="1"><label class="opt-card" for="q7f">❌ خطأ</label>
                     </div>
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">8. حجم قلب الإنسان يعادل تقريباً حجم قبضة يده.</span>
+                    <span class="q-text">8. المخ يقوم بتفسير المعلومات الحسية وإعطاء ردود الفعل المناسبة.</span>
                     <div class="options-grid">
                         <input type="radio" name="q8" id="q8t" value="1"><label class="opt-card" for="q8t">✅ صح</label>
                         <input type="radio" name="q8" id="q8f" value="0"><label class="opt-card" for="q8f">❌ خطأ</label>
@@ -105,7 +105,7 @@ if (!isset($_SESSION['user_id'])) {
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">9. الصفائح الدموية تساعد في وقف النزيف عند الجروح.</span>
+                    <span class="q-text">9. الأعصاب منتشرة في جميع أجزاء الجسم لنقل المعلومات.</span>
                     <div class="options-grid">
                         <input type="radio" name="q9" id="q9t" value="1"><label class="opt-card" for="q9t">✅ صح</label>
                         <input type="radio" name="q9" id="q9f" value="0"><label class="opt-card" for="q9f">❌ خطأ</label>
@@ -113,14 +113,14 @@ if (!isset($_SESSION['user_id'])) {
                 </div>
 
                 <div class="q-section">
-                    <span class="q-text">10. القلب يتوقف عن العمل تماماً أثناء النوم.</span>
+                    <span class="q-text">10. قلة النوم لا تؤثر على صحة الجهاز العصبي.</span>
                     <div class="options-grid">
                         <input type="radio" name="q10" id="q10t" value="0"><label class="opt-card" for="q10t">✅ صح</label>
                         <input type="radio" name="q10" id="q10f" value="1"><label class="opt-card" for="q10f">❌ خطأ</label>
                     </div>
                 </div>
 
-                <button type="button" onclick="calculateResult(2)" class="btn-submit">عرض النتيجة وحفظ التقدم ❤️</button>
+                <button type="button" onclick="calculateResult(6)" class="btn-submit">عرض النتيجة وحفظ التقدم 💡</button>
             </form>
         </div>
 
@@ -145,7 +145,7 @@ if (!isset($_SESSION['user_id'])) {
             timerDisplay.innerHTML = `${minutes}:${seconds}`;
             if (timeLeft <= 0) {
                 clearInterval(timer);
-                calculateResult(2);
+                calculateResult(6);
             }
             timeLeft--;
         }, 1000);
@@ -159,7 +159,7 @@ if (!isset($_SESSION['user_id'])) {
             fetch('save_score.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `quiz_id=2&score=${score}&total=10`
+                body: `quiz_id=${quizID}&score=${score}`
             })
             .then(() => {
                 document.getElementById('quiz-ui').style.display = 'none';
@@ -167,10 +167,10 @@ if (!isset($_SESSION['user_id'])) {
                 document.getElementById('score-text').innerText = `درجتك: ${score} من 10`;
                 const fb = document.getElementById('feedback');
                 if(score >= 7) {
-                    fb.innerText = "بطل حقيقي! دورتك الدموية تعمل بنشاط 🎉";
+                    fb.innerText = "رائع! تفكيرك سريع وذكاءك حاد مثل جهازك العصبي 🎉";
                     fb.style.color = "var(--success)";
                 } else {
-                    fb.innerText = "راجع معلوماتك عن القلب وحاول مرة أخرى ❤️";
+                    fb.innerText = "حاول التركيز أكثر في كيفية عمل الأعصاب والمخ وأعد الاختبار! 💪";
                     fb.style.color = "var(--danger)";
                 }
             });
