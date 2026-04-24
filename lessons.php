@@ -10,7 +10,6 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* ستايل إضافي خاص بصفحة الفهرس لضمان التوافق مع Dark Mode */
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
@@ -65,7 +64,7 @@
         }
 
         .unit-content.open {
-            max-height: 1000px; /* رقم كبير لضمان ظهور المحتوى */
+            max-height: 1000px;
             padding: 20px;
         }
 
@@ -88,6 +87,12 @@
             box-shadow: 0 5px 15px rgba(17, 186, 240, 0.1);
         }
 
+        /* تمييز درس الجهاز العصبي عند التحويم */
+        .lesson-nervous:hover {
+            border-color: #7b1fa2 !important;
+            box-shadow: 0 5px 15px rgba(123, 31, 162, 0.15) !important;
+        }
+
         .lesson-item .icon {
             font-size: 2.5rem;
             margin-left: 20px;
@@ -102,12 +107,6 @@
             margin: 0;
             font-size: 0.9rem;
             opacity: 0.7;
-        }
-
-        .lesson-item.disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            filter: grayscale(1);
         }
 
         .arrow {
@@ -164,7 +163,7 @@
 
         <div class="unit-section">
             <button class="unit-header" onclick="toggleUnit('unit2')">
-                <span>📂 الوحدة الثانية: الطاقة والصحة</span>
+                <span>📂 الوحدة الثانية: الطاقة والصحة والتحكم</span>
                 <span class="arrow">▼</span>
             </button>
             <div id="unit2" class="unit-content">
@@ -183,6 +182,13 @@
                             <p>كيف تختار غذاءك بذكاء لتبني جسماً قوياً.</p>
                         </div>
                     </a>
+                    <a href="nervous-system.php" class="lesson-item lesson-nervous">
+                        <span class="icon">🧠</span>
+                        <div class="text">
+                            <h4>الدرس الثالث: الجهاز العصبي</h4>
+                            <p>كيف ينسق المخ والسيالات العصبية جميع حركاتك ومشاعرك.</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -192,18 +198,14 @@
         function toggleUnit(unitId) {
             const content = document.getElementById(unitId);
             const header = content.previousElementSibling;
-            
-            // تبديل الكلاسات للفتح والإغلاق
             content.classList.toggle('open');
             header.classList.toggle('active');
         }
 
-        // كود إضافي للتأكد من حالة الثيم عند التحميل
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark') {
                 document.body.setAttribute('data-theme', 'dark');
-                document.body.classList.add('dark-mode');
             }
         });
     </script>

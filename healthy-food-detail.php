@@ -70,7 +70,7 @@
         <div class="internal-tabs" data-aos="fade-up">
             <button class="tab-btn active" onclick="switchTab(event, 'theory')">📖 الهرم الغذائي</button>
             <button class="tab-btn" onclick="switchTab(event, 'media')">🎬 الوسائط</button>
-            <button class="tab-btn" onclick="switchTab(event, 'activity')">🧩 الشيف الصغير</button>
+            <button class="tab-btn" onclick="switchTab(event, 'activity')">🧩 اختبار تفاعلى</button>
         </div>
 
         <div id="theory" class="tab-pane active">
@@ -78,11 +78,6 @@
                 <h3>ما هو الغذاء المتوازن؟</h3>
                 <p>هو الغذاء الذي يحتوي على جميع العناصر الغذائية الضرورية بنسب معينة تتناسب مع احتياجات الجسم (العمر، النوع، والنشاط البدني).</p>
             </div>
-
-            
-
-[Image of the healthy food pyramid]
-
 
             <div class="lesson-card" data-aos="fade-up">
                 <h3>مكونات الغذاء الأساسية:</h3>
@@ -109,16 +104,22 @@
 
         <div id="media" class="tab-pane">
             <div class="lesson-card">
+                <h3>🎥 فيديو توضيحي</h3>
+                <div style="aspect-ratio: 16/9; margin-top: 20px;">
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/FyHqoWx-hrg?si=wPknUL_CXeeX0bKr" frameborder="0" allowfullscreen style="border-radius: 15px;"></iframe>
+                </div>
+            </div>
+            <div class="lesson-card">
                 <h3>🖼️ معرض الصور</h3>
                 <div class="image-slider">
                     <div class="slides">
                         <div class="slide active">
-                            <img src="images/unit2/lesson2/food-pyramid.jpg" alt="الهرم الغذائي">
-                            <div class="caption">توزيع المجموعات الغذائية في الهرم</div>
+                            <img src="images/unit2/lesson2/الهرم الغذائى.jpg" alt="الهرم الغذائي">
+                            <div class="caption">الهرم الغذائى</div>
                         </div>
                         <div class="slide">
-                            <img src="images/unit2/lesson2/healthy-plate.jpg" alt="الطبق الصحي">
-                            <div class="caption">تقسيم الطبق الصحي المثالي</div>
+                            <img src="images/unit2/lesson2/الطبق الصحى.jpg" alt="الطبق الصحي">
+                            <div class="caption">الطبق الصحى</div>
                         </div>
                     </div>
                     <button class="prev" onclick="changeSlide(-1)">&#10094;</button>

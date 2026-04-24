@@ -10,14 +10,17 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $user_name = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'بطل المستقبل';
 
+// قمت بتعديل الرقم الإجمالي للدروس ليكون 7 بدلاً من 6 بعد إضافة الدرس الجديد
+$total_lessons = 7; 
+
 $query = "SELECT COUNT(*) as completed FROM user_scores 
           WHERE user_id = '$user_id' 
-          AND ((quiz_id <= 5 AND score >= 7) OR (quiz_id = 6 AND score >= 15))";
+          AND ((quiz_id <= 6 AND score >= 7) OR (quiz_id = 7 AND score >= 15))";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 $completed = $row['completed'];
 
-$progressPercent = round(($completed / 6) * 100);
+$progressPercent = round(($completed / $total_lessons) * 100);
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -31,7 +34,6 @@ $progressPercent = round(($completed / 6) * 100);
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* التنسيق العصري الجديد للكروت */
         .grid-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -53,11 +55,16 @@ $progressPercent = round(($completed / 6) * 100);
             overflow: hidden;
         }
 
-        /* تأثير عند تمرير الماوس */
         .device-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(17, 186, 240, 0.2);
             border-color: var(--accent);
+        }
+
+        /* تنسيق خاص لكارت الجهاز العصبي ليبرز باللون البنفسجي عند التمرير */
+        .card-nervous:hover {
+            box-shadow: 0 15px 30px rgba(123, 31, 162, 0.3);
+            border-color: #7b1fa2;
         }
 
         .device-card .icon {
@@ -71,38 +78,10 @@ $progressPercent = round(($completed / 6) * 100);
             transform: scale(1.2) rotate(5deg);
         }
 
-        .device-card h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin: 10px 0;
-        }
-
-        /* شكل الكروت المعطلة (قريباً) */
-        .device-card.disabled {
-            opacity: 0.7;
-            filter: grayscale(0.5);
-            cursor: not-allowed;
-            background: rgba(128, 128, 128, 0.05);
-        }
-
-        .device-card.disabled span {
-            font-size: 0.8rem;
-            background: rgba(0,0,0,0.1);
-            padding: 4px 12px;
-            border-radius: 50px;
-            display: inline-block;
-            margin-top: 10px;
-        }
-
         .hero {
             background: linear-gradient(135deg, var(--accent), #2c82bf) !important;
-            border-radius: 0 0 50px 50px; /* انحناء بسيط في نهاية الهيرو */
+            border-radius: 0 0 50px 50px;
             margin-bottom: 30px;
-        }
-
-        [data-theme='dark'] .device-card {
-            background: #1e293b; /* لون داكن عميق للكروت في الليل */
-            border-color: rgba(255,255,255,0.05);
         }
     </style>
 </head>
@@ -114,7 +93,7 @@ $progressPercent = round(($completed / 6) * 100);
             <div class="dashboard-card" data-aos="zoom-in">
                 <div class="user-info">
                    <h2>أهلاً بك يا <span id="userNameDisplay"><?php echo $user_name; ?></span>! 👋</h2>
-                   <p>لقد أنجزت حتى الآن <strong><?php echo $completed; ?></strong> من 6 دروس.</p>
+                   <p>لقد أنجزت حتى الآن <strong><?php echo $completed; ?></strong> من <?php echo $total_lessons; ?> دروس.</p>
                 </div>
                 <div class="user-stats">
                     <div class="stat-item">
@@ -128,10 +107,10 @@ $progressPercent = round(($completed / 6) * 100);
         </section>
         <h1 data-aos="fade-up" style="margin-top: 40px;">رحلة داخل جسم الإنسان</h1>
         <p data-aos="fade-up">اكتشف روعة التصميم الإلهي في أجهزتك الحيوية</p>
-        <a href="lessons.php" class="btn-main" data-aos="fade-up" style="border-radius: 50px; padding: 12px 40px;">ابدأ الآن 🚀</a>
+        <a href="#units" class="btn-main" data-aos="fade-up" style="border-radius: 50px; padding: 12px 40px;">ابدأ الآن 🚀</a>
     </header>
 
-    <div class="container">
+    <div class="container" id="units">
         <section class="unit-section" data-aos="fade-up">
             <h2 class="section-title">📦 الوحدة الأولى: النقل والإمداد</h2>
             <div class="grid-cards">
@@ -154,7 +133,7 @@ $progressPercent = round(($completed / 6) * 100);
         </section>
 
         <section class="unit-section" style="margin-top: 50px;" data-aos="fade-up">
-            <h2 class="section-title">⚡ الوحدة الثانية: الطاقة والغذاء</h2>
+            <h2 class="section-title">⚡ الوحدة الثانية: الطاقة والتحكم</h2>
             <div class="grid-cards">
                 <a href="digestive-detail.php" class="device-card">
                     <div class="icon">🍔</div>
@@ -165,6 +144,11 @@ $progressPercent = round(($completed / 6) * 100);
                     <div class="icon">🥗</div>
                     <h3>الغذاء الصحي</h3>
                     <p style="font-size: 0.9rem; opacity: 0.7;">تعرف على أهمية الغذاء الصحي وفوائده.</p>
+                </a>
+                <a href="nervous-system.php" class="device-card card-nervous">
+                    <div class="icon">🧠</div>
+                    <h3>الجهاز العصبي</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.7;">اكتشف كيف يسيطر المخ على كامل وظائف جسمك.</p>
                 </a>
             </div>
         </section>

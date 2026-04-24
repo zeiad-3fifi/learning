@@ -40,13 +40,14 @@
                 <div class="file-info">
                     <h3>الدرس 1: الجهاز التنفسي</h3>
                     <p>ملخص شامل + صور + عرض باوربوينت</p>
+                    <h6>(زياد محمد)</h6>
                 </div>
                 <div class="download-actions">
-                    <a href="files/الوحده 1/الدرس 1/الدرس 1 الجهاز التنفسي.pdf" download class="download-btn">📄 PDF</a>
+                    <a href="files/unit1/lesson1/الدرس 1 الجهاز التنفسي.pdf" download class="download-btn">📄 PDF</a>
                     
-                    <a href="images/الوحده 1/الدرس_1_صور.zip" download class="download-btn img-btn">🖼️ صور</a>
+                    <a href="images/unit1/lesson1img.zip" download class="download-btn img-btn">🖼️ صور</a>
                     
-                    <a href="files/الوحده 1/ppt/الدرس 1/الدرس 1.pptx" download class="download-btn ppt-btn" style="background:#d24726">📊 PPT</a>
+                    <a href="files/unit1/ppt/lesson1/الدرس 1.pptx" download class="download-btn ppt-btn" style="background:#d24726">📊 PPT</a>
                 </div>
             </div>
 
@@ -55,13 +56,14 @@
                 <div class="file-info">
                     <h3>الدرس 2: الجهاز الدوري</h3>
                     <p>ملخص شامل + صور + عرض باوربوينت</p>
+                    <h6>(ناصر محمود)</h6>
                 </div>
                 <div class="download-actions">
-                    <a href="files/الوحده 1/الدرس 2/الدرس 2 الجهاز الدوري.pdf" download class="download-btn">📄 PDF</a>
+                    <a href="files/unit1/lesson2/الدرس 2 الجهاز الدوري.pdf" download class="download-btn">📄 PDF</a>
                     
-                    <a href="images/الوحده 1/الدرس_2_صور.zip" download class="download-btn img-btn">🖼️ صور</a>
+                    <a href="images/unit1/lesson2img.zip" download class="download-btn img-btn">🖼️ صور</a>
                     
-                    <a href="#" class="download-btn ppt-btn" style="background:#ccc; cursor: not-allowed;">📊 قريباً</a>
+                    <a href="files/unit1/ppt/lesson2/Presentation1.pptx" download class="download-btn ppt-btn" style="background:#d24726">📊 PPT</a>
                 </div>
             </div>
 
@@ -70,6 +72,7 @@
                 <div class="file-info">
                     <h3>الدرس 3: الدم ومكوناته</h3>
                     <p>ملخص شامل + صور + عرض باوربوينت</p>
+                    <h6>(سيف محمد)</h6>
                 </div>
                 <div class="download-actions">
                     <a href="#" class="download-btn" style="background:#ccc;">📄 قريباً</a>
@@ -81,7 +84,7 @@
 
         <hr style="margin: 40px 0; border: 0; border-top: 1px dashed #ccc;">
 
-        <h2 class="section-title" style="color: #27ae60;">🟢 الوحدة الثانية: الغذاء والإخراج</h2>
+        <h2 class="section-title" style="color: #27ae60;">🟢 الوحدة الثانية: الغذاء والتحكم</h2>
 
         <div class="downloads-grid">
             <div class="download-card">
@@ -89,6 +92,7 @@
                 <div class="file-info">
                     <h3>الدرس 1: الجهاز الهضمي</h3>
                     <p>ملخص شامل + صور + عرض باوربوينت</p>
+                    <h6>(محمد هانى)</h6>
                 </div>
                 <div class="download-actions">
                     <a href="#" class="download-btn" style="background:#ccc;">📄 قريباً</a>
@@ -96,16 +100,32 @@
                     <a href="#" class="download-btn ppt-btn" style="background:#ccc;">📊 قريباً</a>
                 </div>
             </div>
+
             <div class="download-card">
                 <div class="file-icon">🥗</div>
                 <div class="file-info">
                     <h3>الدرس 2: أهمية الغذاء الصحي</h3>
                     <p>ملخص شامل + صور + عرض باوربوينت</p>
+                    <h6>(أيمن محمد)</h6>
                 </div>
                 <div class="download-actions">
                     <a href="#" class="download-btn" style="background:#ccc;">📄 قريباً</a>
-                    <a href="#" class="download-btn img-btn" style="background:#ccc;">🖼️ قريباً</a>
-                    <a href="#" class="download-btn ppt-btn" style="background:#ccc;">📊 قريباً</a>
+                    <a href="images/unit2/lesson2img.zip" download class="download-btn img-btn">🖼️ صور</a>
+                    <a href="files/unit2/lesson2/Ayman Mohamed.pptx" download class="download-btn ppt-btn" style="background:#d24726">📊 PPT</a>
+                </div>
+            </div>
+
+            <div class="download-card">
+                <div class="file-icon">🧠</div>
+                <div class="file-info">
+                    <h3>الدرس 3: الجهاز العصبي</h3>
+                    <p>ملخص شامل + صور + عرض باوربوينت</p>
+                    <h6>(نورالدين طارق)</h6>
+                </div>
+                <div class="download-actions">
+                    <a href="files/unit2/lesson3/الدرس_الثالث_الوحده_الثاني_الجهاز_العصبي.pdf" download class="download-btn">📄 PDF</a>
+                    <a href="images/unit2/lesson3img.zip" download class="download-btn img-btn">🖼️ صور</a>
+                    <a href="files/unit2/ppt/الدرس 3/الدرس 3.pptx" download class="download-btn ppt-btn" style="background:#d24726">📊 PPT</a>
                 </div>
             </div>
         </div>
